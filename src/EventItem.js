@@ -11,11 +11,12 @@ class EventItem extends Component {
     constructor(props) {
         super(props);
 
-        const {left, top, width} = props;
+        const {left, top, width, height} = props;
         this.state = {
             left: left,
             top: top,
             width: width,
+            height: height
         };
         this.startResizer = null;
         this.endResizer = null;
@@ -26,8 +27,9 @@ class EventItem extends Component {
         eventItem: PropTypes.object.isRequired,
         isStart: PropTypes.bool.isRequired,
         isEnd: PropTypes.bool.isRequired,
-        left: PropTypes.number.isRequired,
+        left: PropTypes.number,
         width: PropTypes.number.isRequired,
+        height: PropTypes.number,
         top: PropTypes.number.isRequired,
         isInPopover: PropTypes.bool.isRequired,
         leftIndex: PropTypes.number.isRequired,
@@ -49,11 +51,12 @@ class EventItem extends Component {
     }
 
     componentWillReceiveProps(np) {
-        const {left, top, width} = np;
+        const {left, top, width, height} = np;
         this.setState({
             left: left,
             top: top,
             width: width,
+            height: height
         });
 
         this.subscribeResizeEvent(np);
@@ -143,7 +146,7 @@ class EventItem extends Component {
         }
         document.onselectstart = null;
         document.ondragstart = null;
-        const {width, left, top, leftIndex, rightIndex, schedulerData, eventItem, updateEventStart, conflictOccurred} = this.props;
+        const {width, height, left, top, leftIndex, rightIndex, schedulerData, eventItem, updateEventStart, conflictOccurred} = this.props;
         schedulerData._stopResizing();
         if(this.state.width === width) return;
 
@@ -154,6 +157,7 @@ class EventItem extends Component {
                     left: left,
                     top: top,
                     width: width,
+                    height: height
                 });
                 return;
             }
@@ -235,6 +239,7 @@ class EventItem extends Component {
                 left: left,
                 top: top,
                 width: width,
+                height: height
             });
 
             if (conflictOccurred != undefined) {
@@ -259,12 +264,13 @@ class EventItem extends Component {
         this.startResizer.removeEventListener('touchcancel', this.cancelStartDrag, false);
         document.onselectstart = null;
         document.ondragstart = null;
-        const {schedulerData, left, top, width} = this.props;
+        const {schedulerData, left, top, width, height} = this.props;
         schedulerData._stopResizing();
         this.setState({
             left: left,
             top: top,
             width: width,
+            height: height
         });
     }
 
@@ -346,7 +352,7 @@ class EventItem extends Component {
         }
         document.onselectstart = null;
         document.ondragstart = null;
-        const {width, left, top, leftIndex, rightIndex, schedulerData, eventItem, updateEventEnd, conflictOccurred} = this.props;
+        const {width, height, left, top, leftIndex, rightIndex, schedulerData, eventItem, updateEventEnd, conflictOccurred} = this.props;
         schedulerData._stopResizing();
         if(this.state.width === width) return;
 
@@ -357,6 +363,7 @@ class EventItem extends Component {
                     left: left,
                     top: top,
                     width: width,
+                    height: height
                 });
                 return;
             }
@@ -439,6 +446,7 @@ class EventItem extends Component {
                 left: left,
                 top: top,
                 width: width,
+                height: height
             });
 
             if (conflictOccurred != undefined) {
@@ -463,19 +471,20 @@ class EventItem extends Component {
         this.endResizer.removeEventListener('touchcancel', this.cancelEndDrag, false);
         document.onselectstart = null;
         document.ondragstart = null;
-        const {schedulerData, left, top, width} = this.props;
+        const {schedulerData, left, top, width, height} = this.props;
         schedulerData._stopResizing();
         this.setState({
             left: left,
             top: top,
             width: width,
+            height: height
         });
     }
 
     render() {
         const {eventItem, isStart, isEnd, isInPopover, eventItemClick, schedulerData, isDragging, connectDragSource, connectDragPreview, eventItemTemplateResolver} = this.props;
         const {config, localeMoment} = schedulerData;
-        const {left, width, top} = this.state;
+        const {left, width, top, height} = this.state;
         let roundCls = isStart ? (isEnd ? 'round-all' : 'round-head') : (isEnd ? 'round-tail' : 'round-none');
         let bgColor = config.defaultEventBgColor;
         if (!!eventItem.bgColor)
@@ -510,7 +519,7 @@ class EventItem extends Component {
         if(eventItemTemplateResolver != undefined)
             eventItemTemplate = eventItemTemplateResolver(schedulerData, eventItem, bgColor, isStart, isEnd, 'event-item', config.eventItemHeight, undefined);
 
-        let a = <a className="timeline-event" style={{left: left, width: width, top: top}} onClick={() => { if(!!eventItemClick) eventItemClick(schedulerData, eventItem);}}>
+        let a = <a className="timeline-event" style={{left: left, width: width, top: top, height: height}} onClick={() => { if(!!eventItemClick) eventItemClick(schedulerData, eventItem);}}>
             {eventItemTemplate}
             {startResizeDiv}
             {endResizeDiv}

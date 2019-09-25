@@ -60,7 +60,7 @@ export default {
     relativeMove: true,
     defaultExpanded: true,
 
-    resourceName: 'Resource Name',
+    resourceName: 'Oppgave:',
     taskName: 'Task Name',
     agendaViewHeader: 'Agenda',
     addMorePopoverHeaderFormat: 'MMM D, YYYY dddd',
@@ -77,4 +77,23 @@ export default {
         {viewName: 'Quarter', viewType: ViewTypes.Quarter, showAgenda: false, isEventPerspective: false},
         {viewName: 'Year', viewType: ViewTypes.Year, showAgenda: false, isEventPerspective: false},
     ],
+    
+    /* New reverse config */
+    resourceNameReversed: 'Oppg:',
+    eventItemReversedMargin: 6,
+    columnReversedWidth: 90,
+    rowReverseHeight: 60,
+    reverseBreakpoint: 769,
+
+    /* Current Project specific */
+    eventItemHeight: 40,
+    eventItemLineHeight: 56,
+    dayStartFrom: 8,
+    dayStopTo: 17,
+    minuteStep: 15,
+    dayCellWidth: 160,
+    nonAgendaSlotMinHeight: 75,
+    nonAgendaDayCellHeaderFormat: 'HH:mm',
+    dayResourceTableWidth: 170,
+
 }

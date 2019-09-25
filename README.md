@@ -1,3 +1,15 @@
+# Axis reverse
+This fork provides a simple reverse of axis (time in the leftmost column and resources in header) when screen is below a certain width (set in config). 
+
+Most is done by changing flex directions and wherever width, height, top, left, right and bottom are set, "reversing them". Since text is always horizontal it not always so clear. It is not responsive. Since we change up the layout/position of differing tables, we lose the scaled widths they provide and must set explicit widths. 
+
+It's pretty, and can be cleaned up. 
+There is also a load of tweaks done in it for the project I am goin to use it for. 
+
+A class of `.scheduler-reverse` is added to the root element when it is reversed. 
+
+Rest of docs below have not been updated.
+
 # react-big-scheduler ![npm](https://img.shields.io/npm/v/react-big-scheduler.svg?style=plastic)
 
 A scheduler and resource planning component built for React and made for modern browsers (IE10+), IE needs babel-polyfill.  

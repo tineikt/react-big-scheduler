@@ -38,6 +38,7 @@ class ResourceEvents extends Component {
         viewEvent2Text: PropTypes.string,
         newEvent: PropTypes.func,
         eventItemTemplateResolver: PropTypes.func,
+        isReversed: PropTypes.bool
     }
 
     componentDidMount() {
@@ -248,18 +249,18 @@ class ResourceEvents extends Component {
         const {resourceEvents, schedulerData, connectDropTarget, dndSource} = this.props;
         const {cellUnit, startDate, endDate, config, localeMoment} = schedulerData;
         const {isSelecting, left, width} = this.state;
-        let cellWidth = schedulerData.getContentCellWidth();
+        let cellWidth = this.props.isReversed ? config.columnReversedWidth : schedulerData.getContentCellWidth();
+        let cellHeight = this.props.isReversed ? config.rowReverseHeight : null // schedulerData.getContentCellWidth() : null;
         let cellMaxEvents = schedulerData.getCellMaxEvents();
-        let rowWidth = schedulerData.getContentTableWidth();
+        let rowWidth = this.props.isReversed ? schedulerData.getReversedContentCellWidth(resourceEvents.rowHeight) : schedulerData.getContentTableWidth();
         let DnDEventItem = dndSource.getDragSource();
 
         let selectedArea = isSelecting ? <SelectedArea {...this.props} left={left} width={width} /> : <div />;
 
         let eventList = [];
         resourceEvents.headerItems.forEach((headerItem, index) => {
-
             if (headerItem.count > 0 || headerItem.summary != undefined) {
-
+ 
                 let isTop = config.summaryPos === SummaryPos.TopRight || config.summaryPos === SummaryPos.Top || config.summaryPos === SummaryPos.TopLeft;
                 let marginTop = resourceEvents.hasSummary && isTop ? 1 + config.eventItemLineHeight : 1;
                 let renderEventsMaxIndex = headerItem.addMore === 0 ? cellMaxEvents : headerItem.addMoreIndex;
@@ -276,9 +277,26 @@ class ResourceEvents extends Component {
                         let eventEnd = localeMoment(evt.eventItem.end);
                         let isStart = eventStart >= durationStart;
                         let isEnd = eventEnd <= durationEnd;
+
                         let left = index*cellWidth + (index > 0 ? 2 : 3);
                         let width = (evt.span * cellWidth - (index > 0 ? 5 : 6)) > 0 ? (evt.span * cellWidth - (index > 0 ? 5 : 6)) : 0;
+                        if(cellUnit === CellUnits.Hour) {
+                            left = left / schedulerData.getMinuteStepsInHour();
+                            width = width / schedulerData.getMinuteStepsInHour();
+                        }
                         let top = marginTop + idx*config.eventItemLineHeight;
+                        let height = null;
+                        if (this.props.isReversed) {
+                            top = index*cellHeight;
+                            width = cellWidth - (config.eventItemReversedMargin * 2);
+                            height = evt.span * cellHeight;
+                            if(cellUnit === CellUnits.Hour) {
+                                height = height / schedulerData.getMinuteStepsInHour();
+                                top = top / schedulerData.getMinuteStepsInHour();
+                            }
+                            left = idx*cellWidth;
+                            // index only used in height and top
+                        }
                         let eventItem = <DnDEventItem
                                                    {...this.props}
                                                    key={evt.eventItem.id}
@@ -289,6 +307,7 @@ class ResourceEvents extends Component {
                                                    left={left}
                                                    width={width}
                                                    top={top}
+                                                   height={height}
                                                    leftIndex={index}
                                                    rightIndex={index + evt.span}
                                                    />
@@ -312,7 +331,7 @@ class ResourceEvents extends Component {
                                         />;
                     eventList.push(addMoreItem);
                 }
-
+                // console.log("resourceEvents.rowHeight", resourceEvents.rowHeight)
                 if(headerItem.summary != undefined) {
                     let top = isTop ? 1 : resourceEvents.rowHeight - config.eventItemLineHeight + 1;
                     let left = index*cellWidth + (index > 0 ? 2 : 3);
@@ -326,7 +345,7 @@ class ResourceEvents extends Component {
 
         return (
             <tr>
-                <td style={{width: rowWidth}}>
+                <td style={{width: rowWidth, minWidth: this.props.isReversed ? rowWidth : null}}>
                     {
                         connectDropTarget(
                             <div ref={this.eventContainerRef} className="event-container" style={{height: resourceEvents.rowHeight}}>
