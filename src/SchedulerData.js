@@ -308,7 +308,9 @@ export default class SchedulerData {
 
 
     getContentTableWidth() {
-        return this.headers.length * (this.getContentCellWidth());
+        let width = this.headers.length * (this.getContentCellWidth());
+        if (this.cellUnit === CellUnits.Hour) width = width / this.getMinuteStepsInHour();
+        return width;
     }
 
     getScrollToSpecialMoment() {
