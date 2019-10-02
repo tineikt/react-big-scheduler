@@ -299,6 +299,7 @@ class ResourceEvents extends Component {
                         }
                         let eventItem = <DnDEventItem
                                                    {...this.props}
+                                                   span={evt.span}
                                                    key={evt.eventItem.id}
                                                    eventItem={evt.eventItem}
                                                    isStart={isStart}
