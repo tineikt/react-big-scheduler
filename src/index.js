@@ -201,9 +201,9 @@ class Scheduler extends Component {
             });
 
             let contentScrollbarHeight = this.state.contentScrollbarHeight,
-                contentScrollbarWidth = this.state.contentScrollbarWidth,
+                contentScrollbarWidth = isReversed ? 0 : this.state.contentScrollbarWidth,
                 resourceScrollbarHeight = this.state.resourceScrollbarHeight,
-                resourceScrollbarWidth = this.state.resourceScrollbarWidth,
+                resourceScrollbarWidth = isReversed ? 0 : this.state.resourceScrollbarWidth,
                 contentHeight = this.state.contentHeight;
             let resourcePaddingBottom = resourceScrollbarHeight === 0 ? contentScrollbarHeight : 0;
             let contentPaddingBottom = contentScrollbarHeight === 0 ? resourceScrollbarHeight : 0;

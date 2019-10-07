@@ -282,7 +282,9 @@ export default class SchedulerData {
 
     getSchedulerWidth() {
         const documentWidth = this.documentWidth > 0 ? this.documentWidth : document.documentElement.clientWidth;
-        let baseWidth = documentWidth - this.config.besidesWidth > 0 ? documentWidth - this.config.besidesWidth : 0;
+        const isReversed = documentWidth < this.config.reverseBreakpoint;
+        let besidesWidth = isReversed ? 0 : this.config.besidesWidth;
+        let baseWidth = documentWidth - besidesWidth > 0 ? documentWidth - besidesWidth : 0;
         return this.isSchedulerResponsive() ? parseInt(baseWidth * Number(this.config.schedulerWidth.slice(0, -1)) / 100) : this.config.schedulerWidth;
     }
 
