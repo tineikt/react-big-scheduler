@@ -293,8 +293,8 @@ export default class SchedulerData {
         let schedulerWidth = this.getSchedulerWidth();
         let resourceTableWidth = this.isResourceViewResponsive() ? parseInt(schedulerWidth * Number(resourceTableConfigWidth.slice(0, -1)) / 100)
             : resourceTableConfigWidth;
-        if (this.isSchedulerResponsive() && (this.getContentTableWidth() + resourceTableWidth < schedulerWidth))
-            resourceTableWidth = schedulerWidth - this.getContentTableWidth();
+      /*  if (this.isSchedulerResponsive() && (this.getContentTableWidth() + resourceTableWidth < schedulerWidth))
+            resourceTableWidth = schedulerWidth - this.getContentTableWidth(); */
         return resourceTableWidth;
     }
 

@@ -14,7 +14,7 @@ class Basic extends Component {
         super(props);
 
         //let schedulerData = new SchedulerData(new moment("2017-12-18").format(DATE_FORMAT), ViewTypes.Week);
-        let schedulerData = new SchedulerData('2017-12-18', ViewTypes.Day);
+        let schedulerData = new SchedulerData('2017-12-18', ViewTypes.Day, false, false, {dayStartFrom: 17, dayStopTo: 24,});
         schedulerData.localeMoment.locale('en');
         schedulerData.setResources(DemoData.resources);
         schedulerData.setEvents(DemoData.events);
