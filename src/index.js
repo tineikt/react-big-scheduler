@@ -272,7 +272,7 @@ class Scheduler extends Component {
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div className="scheduler-bg" style={{ overflow: 'hidden', width: isReversed ? null : schedulerWidth }}>
+                                    <div className="scheduler-bg" style={{ overflow: 'hidden', width: isReversed ? null : schedulerContainerWidth }}>
                                         <table className="scheduler-bg-table" style={{ width: isReversed ? schedulerWidth : '9999px' }} ref={this.schedulerContentBgTableRef} >
                                             <BodyView isReversed={isReversed} {...this.props} />
                                         </table>
